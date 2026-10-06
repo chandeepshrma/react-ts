@@ -1,15 +1,20 @@
-import { Provider } from "./components/ui/provider.tsx";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { Provider as ReduxProvider } from "react-redux";
 import { RouterProvider } from "react-router";
-import { mainRoutes } from "./app/shared/routes/main.routes.tsx";
+
+import { Provider as ChakraProvider } from "./components/ui/provider";
+import { mainRoutes } from "./app/shared/routes/main.routes";
+import store  from "./app/shared/store/store";
+
 import "./index.css";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <Provider>
-      <RouterProvider router={mainRoutes} />
-    </Provider>
+    <ReduxProvider store={store}>
+      <ChakraProvider>
+        <RouterProvider router={mainRoutes} />
+      </ChakraProvider>
+    </ReduxProvider>
   </StrictMode>
 );
-
