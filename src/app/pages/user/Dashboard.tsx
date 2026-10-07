@@ -3,9 +3,13 @@ import type { UserContextType } from "../../shared/context/UserContext";
 import UserContext from "../../shared/context/UserContext";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { addUser, removeUser, type UserSliceType } from "../../shared/features/usersSlice";
+import {
+  addUser,
+  removeUser,
+  type UserSliceType,
+} from "../../shared/features/usersSlice";
 import { Icon } from "@chakra-ui/react";
-import { BiCameraMovie, BiCross, BiCut, BiDroplet, BiSolidDroplet, BiWindowClose } from "react-icons/bi";
+import { BiCut } from "react-icons/bi";
 type UserForm = {
   name: string;
   email: string;
@@ -31,9 +35,11 @@ function Dashboard() {
 
     dispatch(addUser(data));
   };
+
   const handleRemoveUser = (userID: string) => {
-    dispatch(removeUser(userID))
+    dispatch(removeUser(userID));
   };
+
   return (
     <>
       <div onClick={() => setUser("Dashboard User")}>Add user</div>
@@ -78,15 +84,19 @@ function Dashboard() {
       <ul className="px-5! mt-2!">
         <li className="block mb-3! font-semibold! list-none">Users</li>
         {users.map((user: UserSliceType, index: number) => (
-          <li  
+          <li
             key={user.id}
             className={`list-disc justify-between flex p-2! ${index % 2 === 0 ? "bg-amber-200" : "bg-blue-400"}`}
           >
             <span>
-            Name: <b className="text-indigo-600">{user.name}</b>, Email:{" "}
-            <b className="text-indigo-600">{user.email}</b>
+              Name: <b className="text-indigo-600">{user.name}</b>, Email:{" "}
+              <b className="text-indigo-600">{user.email}</b>
             </span>
-            <button className="block ms-2! px-2! bg-red-700! text-white! rounded-md font-medium! cursor-pointer" type="button" onClick={()=> handleRemoveUser(user.id)}>
+            <button
+              className="block ms-2! px-2! bg-red-700! text-white! rounded-md font-medium! cursor-pointer"
+              type="button"
+              onClick={() => handleRemoveUser(user.id)}
+            >
               <Icon boxSize={5}>
                 <BiCut />
               </Icon>
