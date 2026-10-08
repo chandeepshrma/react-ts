@@ -4,11 +4,12 @@ import { Provider as ReduxProvider } from "react-redux";
 import { RouterProvider } from "react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-import { Provider as ChakraProvider } from "./components/ui/provider";
+import { ColorModeProvider } from "./components/ui/color-mode";
 import { mainRoutes } from "./app/shared/routes/main.routes";
 import store from "./app/shared/store/store";
 
 import "./index.css";
+import AuthInitializer from "./app/core/auth/AuthInitializer";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -25,9 +26,10 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ReduxProvider store={store}>
       <QueryClientProvider client={queryClient}>
-        <ChakraProvider>
+        <ColorModeProvider>
+          <AuthInitializer />
             <RouterProvider router={mainRoutes} />
-        </ChakraProvider>
+        </ColorModeProvider>
       </QueryClientProvider>
     </ReduxProvider>
   </StrictMode>,

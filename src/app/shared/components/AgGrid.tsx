@@ -1,11 +1,9 @@
 import {
   AllCommunityModule,
-  type ColDef,
 } from "ag-grid-community";
 import { AgGridProvider, AgGridReact } from "ag-grid-react";
 import { themeQuartz } from "ag-grid-community";
 import { BiCut } from "react-icons/bi";
-import { Icon } from "@chakra-ui/react";
 
 interface IAgGrid {
   rowData: any[] | undefined,
@@ -17,9 +15,7 @@ interface IAgGrid {
 function AgGrid({rowData, colDefs, isActionRequired = true}: IAgGrid) {
   const gridRows = isActionRequired ? 
   rowData?.map((row)=> {
-    return {...row, Action: (<Icon boxSize={5}>
-              <BiCut />
-            </Icon>)}})
+    return {...row, Action: (<BiCut className="inline-block size-5 shrink-0 align-middle" aria-hidden="true" />)}})
     : rowData;
   return (
     <AgGridProvider modules={[AllCommunityModule]}>

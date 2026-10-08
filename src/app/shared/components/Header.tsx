@@ -1,227 +1,41 @@
-import {
-  Box,
-  Button,
-  Flex,
-  HStack,
-  Icon,
-  Input,
-  Menu,
-  Portal,
-  Text,
-} from "@chakra-ui/react";
-import { BiChevronDown, BiHeart, BiLogoGithub, BiSearch, BiSun } from "react-icons/bi";
-import { NavLink } from "react-router/internal/react-server-client";
+import Brand from "./Brand";
+import { useEffect, useState } from "react";
+import { Link } from "react-router";
+import { FiMoon, FiSun } from "react-icons/fi";
 import { useColorMode } from "../../../components/ui/color-mode";
-
-const navItems = ["Home", "About", "Blog", "Guides"];
+import { useAppSelector } from "../store/hooks";
 
 export default function Header() {
   const { colorMode, toggleColorMode } = useColorMode();
+  const user = useAppSelector((state) => state.auth.user);
+  const [isScrolled, setIsScrolled] = useState(() => window.scrollY > 0);
+
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 0);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <Box
-      w="100%"
-      h="70px"
-      borderTop="1px solid"
-      borderTopColor="red.200"
-      borderBottom="1px solid"
-      borderBottomColor="gray.100"
-      bg={colorMode === 'dark' ? 'gray.800' : 'white'}
-    >
-      <Flex
-        h="100%"
-        align="center"
-        w="100%"
-        mx="auto"
-        px={{ base: 5, lg: 8 }}
-        gap={8}
-      >
-        {/* Logo */}
-        <HStack gap={2} flexShrink={0}>
-          <Box
-            w="34px"
-            h="34px"
-            borderRadius="10px"
-            bg="linear-gradient(135deg, #20C7C9, #0F9D9A)"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            position="relative"
-            overflow="hidden"
-          >
-            <Box
-              position="absolute"
-              w="17px"
-              h="17px"
-              bg="white"
-              transform="rotate(45deg)"
-              opacity={0.95}
-            />
-
-            <Box
-              position="absolute"
-              w="10px"
-              h="10px"
-              bg="#20C7C9"
-              transform="rotate(45deg)"
-            />
-          </Box>
-
-          <Text
-            fontSize="28px"
-            fontWeight="700"
-            letterSpacing="-1.5px"
-            color={colorMode === 'dark' ? 'gray.500' : 'gray.800'}
-          >
-            Logo
-          </Text>
-        </HStack>
-
-        {/* Navigation */}
-        <HStack
-          gap={{ base: 5, lg: 8 }}
-          ml={8}
-          display={{ base: "none", md: "flex" }}
-        >
-          {navItems.map((item) => (
-            <NavLink
-              key={item}
-              to={`/${item.toLowerCase()}`}
-              className={({ isActive }: { isActive: boolean }) =>
-                `${isActive && colorMode !== 'dark' ? "text-blue-900! font-bold! text-lg! underline!" : isActive && colorMode === 'dark' ? " text-gray-500! font-bold! text-lg! underline!" : ""}`
-              }
-            >
-              {item}
-            </NavLink>            
-          ))}
-        </HStack>
-
-        {/* Right side */}
-        <HStack ml="auto" gap={3}>
-          {/* Sponsor */}
-          <Button
-            variant="plain"
-            display={{ base: "none", lg: "flex" }}
-            gap={2}
-            fontSize="16px"
-            fontWeight="500"
-            color={colorMode === 'dark' ? 'gray.500' : 'gray.800'}            
-          >
-            <Icon color="red.500" boxSize={5}>
-              <BiHeart fill="currentColor" />
-            </Icon>
-            Sponsor
-          </Button>
-
-          {/* Version */}
-          <Menu.Root>
-            <Menu.Trigger asChild>
-              <Button
-                variant="outline"
-                borderColor="gray.200"
-                borderRadius="6px"
-                h="44px"
-                px={4}
-                fontSize="16px"
-                fontWeight="500"
-              >
-                3.37.0
-                <BiChevronDown size={16} />
-              </Button>
-            </Menu.Trigger>
-
-            <Portal>
-              <Menu.Positioner>
-                <Menu.Content>
-                  <Menu.Item value="3.37.0">3.37.0</Menu.Item>
-                  <Menu.Item value="3.36.0">3.36.0</Menu.Item>
-                  <Menu.Item value="3.35.0">3.35.0</Menu.Item>
-                </Menu.Content>
-              </Menu.Positioner>
-            </Portal>
-          </Menu.Root>
-
-          {/* Search */}
-          <Box
-            position="relative"
-            w={{ base: "44px", sm: "220px", lg: "320px" }}
-          >
-            <Icon
-              position="absolute"
-              left="14px"
-              top="50%"
-              transform="translateY(-50%)"
-              color="gray.600"
-              zIndex={1}
-              pointerEvents="none"
-            >
-              <BiSearch size={20} />
-            </Icon>
-
-            <Input
-              h="44px"
-              pl="44px"
-              pr="55px"
-              border="none"
-              borderRadius="7px"
-              bg="gray.50"
-              fontSize="16px"
-              placeholder="Search..."
-              _focus={{
-                bg: "white",
-                borderColor: "gray.300",
-                boxShadow: "0 0 0 1px var(--chakra-colors-gray-300)",
-              }}
-            />
-
-            <Box
-              position="absolute"
-              right="10px"
-              top="50%"
-              transform="translateY(-50%)"
-              display={{ base: "none", sm: "block" }}
-              px="7px"
-              py="2px"
-              border="1px solid"
-              borderColor="gray.200"
-              borderRadius="5px"
-              bg="white"
-              color="gray.500"
-              fontSize="12px"
-              fontWeight="500"
-            >
-              ⌘ K
-            </Box>
-          </Box>
-
-          {/* GitHub */}
-          <Button
-            variant="plain"
-            p={2}
-            display={{ base: "none", sm: "flex" }}
-            bg={colorMode === 'dark' ? 'gray.700' : 'gray.100'}
-            color={colorMode === 'dark' ? 'gray.200' : 'gray.800'}
-            _hover={{
-              bg: colorMode === 'dark' ? 'gray.50' : 'gray.200',
-            }}
-          >
-            <BiLogoGithub size={20} />
-          </Button>
-
-          {/* colorMode */}
-          <Button
-            onClick={() => toggleColorMode()}
-            variant="plain"
-            p={2}
-            bg={colorMode === 'dark' ? 'gray.700' : 'gray.100'}
-            color={colorMode === 'dark' ? 'gray.200' : 'gray.800'}
-            _hover={{
-              bg: colorMode === 'dark' ? 'gray.50' : 'gray.200',
-            }}
-          >
-            <BiSun size={20} />
-          </Button>
-        </HStack>
-      </Flex>
-    </Box>
+    <header className={`sticky top-0 z-40 h-19.5 flex items-center justify-between gap-5 py-0 px-9 border-b border-(--ws-border)
+          transition-[background-color,box-shadow,backdrop-filter] duration-200 motion-reduce:transition-none
+          max-[760px]:py-0 max-[760px]:px-5 max-[760px]:h-17 ${isScrolled
+            ? "bg-(--ws-surface)/80 backdrop-blur-xs shadow-sm"
+            : "bg-(--ws-surface)"}`}>
+      <Link to="/home" aria-label="Architects home" className="flex items-center gap-5 text-(--ws-text) no-underline">
+        <Brand />
+        <span aria-hidden="true" className="h-6 w-px bg-(--ws-border) max-[760px]:hidden" />
+        <span className="text-[13px] text-(--ws-muted) max-[760px]:hidden">Workspace</span>
+      </Link>
+      <div className="flex items-center gap-5 max-[760px]:gap-3">
+        <button className="grid place-items-center w-9 h-9 border border-(--ws-border) rounded-[10px] bg-(--ws-surface) text-(--ws-muted) text-[17px]" onClick={toggleColorMode} aria-label={`Switch to ${colorMode === "dark" ? "light" : "dark"} mode`}>
+          {colorMode === "dark" ? <FiSun /> : <FiMoon />}
+        </button>
+        <div className="flex items-center gap-2.5 pl-5 [border-left:1px_solid_var(--ws-border)] [&_strong]:block [&_strong]:text-xs
+          [&_strong]:font-[650] [&_small]:block [&_small]:mt-0.5 [&_small]:text-(--ws-muted) [&_small]:text-[11px]
+          max-[760px]:[&_>_div]:hidden max-[760px]:pl-0 max-[760px]:border-0"><span className="w-9 h-9 grid place-items-center rounded-full bg-[#eaf0ff] text-[#4d68a0] text-xs font-[650]">{user?.firstName?.charAt(0) || "U"}{user?.lastName?.charAt(0)}</span><div><strong>{user ? `${user.firstName} ${user.lastName}` : "Your account"}</strong><small>Personal workspace</small></div></div>
+      </div>
+    </header>
   );
 }
+

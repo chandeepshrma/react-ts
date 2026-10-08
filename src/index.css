@@ -1,1 +1,2 @@
-@import "tailwindcss";
+/* Keep utility styles above reset styles, including styles retained during HMR. */
+@import "tailwindcss" important;

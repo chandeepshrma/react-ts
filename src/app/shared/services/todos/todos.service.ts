@@ -10,7 +10,7 @@ export const addTodo = async (
     throw new Error("Failed to add todo");
   }
 
-  return response.data.json();
+  return response.data;
 };
 
 export const getAllTodos = async (): Promise<ITodo[]> => {
