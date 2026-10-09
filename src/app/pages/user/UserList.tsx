@@ -1,4 +1,4 @@
-import { memo, useCallback } from "react";
+import { useCallback } from "react";
 import { BiCut } from "react-icons/bi";
 
 import {
@@ -11,8 +11,6 @@ import {
 } from "../../shared/store/hooks";
 
 function UserList() {
-  console.log("UserList rendered");
-
   const dispatch = useAppDispatch();
 
   const users = useAppSelector(
