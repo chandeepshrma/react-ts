@@ -12,12 +12,8 @@ const mainRoutes = createBrowserRouter([
   // Root
   {
     path: "/",
-    element: <Navigate to="/home" replace />,
+    element: <Navigate to="/login" replace />,
   },
-
-  // -------------------------
-  // Guest routes
-  // -------------------------
   {
     element: <GuestRoute />,
     children: [
@@ -27,10 +23,6 @@ const mainRoutes = createBrowserRouter([
       },
     ],
   },
-
-  // -------------------------
-  // Protected routes
-  // -------------------------
   {
     element: <ProtectedRoute />,
     children: [
@@ -41,10 +33,6 @@ const mainRoutes = createBrowserRouter([
       },
     ],
   },
-
-  // -------------------------
-  // Not found
-  // -------------------------
   {
     path: "*",
     element: <Navigate to="/page-not-found" replace />,

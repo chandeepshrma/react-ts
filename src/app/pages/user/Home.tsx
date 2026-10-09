@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiCalendar } from "react-icons/fi";
 import { useAppSelector } from "../../shared/store/hooks";
 import Todos from "../todos/Todos";
@@ -6,6 +6,33 @@ import Todos from "../todos/Todos";
 export default function Home() {
   const [today] = useState(() => new Date());
   const user = useAppSelector((state) => state.auth.user);
+
+  const [count, setCount] = useState(0);
+
+  useEffect(()=>{
+    setCount(count + 1);
+    // setCount((prevCount) => prevCount + 1);
+  },[]);
+
+//   useEffect(() => {
+//   const intervalId = setInterval(() => {
+//     setCount((prevCount) => prevCount + 1);
+//   }, 1000);
+
+//   return () => {
+//     clearInterval(intervalId);
+//   };
+// }, []);
+
+  // const increment = () => {
+  //   // setCount(count + 1);
+  //   // setCount(count + 1);
+  //   // setCount(count + 1);
+  //   setCount((prevCount) => prevCount + 1);
+  //   setCount((prevCount) => prevCount + 1);
+  //   setCount((prevCount) => prevCount + 1);
+  // };
+
   return (
     <div className="max-w-330 m-auto">
       <div
